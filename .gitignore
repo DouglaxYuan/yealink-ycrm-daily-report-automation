@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+.ycrm-chrome-profile/
+.local-profiles/
+work/
+outputs/
+digests/
+screenshots/
+*.har
+*.log
+*.png
+*.jpg
+*.jpeg
+*.webp

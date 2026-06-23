@@ -1,0 +1,12 @@
+{
+  "visitDate": "2026-06-23",
+  "workType": "CUSTOMER_VISIT",
+  "customerName": "示例客户",
+  "projectName": "示例项目",
+  "reportTarget": "确认客户会议室协作场景和下一步测试安排。",
+  "actualPerformance": "1. 完成需求沟通；2. 输出待确认清单；3. 约定下次跟进时间。",
+  "unfollowedMatter": "等待客户确认测试环境。",
+  "risk": "暂无明确风险。",
+  "businessProgress": "样例字段，请按实际 YCRM 接口调整。",
+  "technicalProgress": "样例字段，请按实际 YCRM 接口调整。"
+}

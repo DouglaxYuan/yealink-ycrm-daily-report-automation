@@ -1,0 +1,14 @@
+{
+  "name": "yealink-ycrm-daily-report-automation",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Playwright helpers for authorized YCRM daily-report fetching and template submission.",
+  "scripts": {
+    "fetch": "node scripts/fetch_daily_reports.mjs",
+    "analyze": "node scripts/analyze_daily_report_style.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.1"
+  }
+}
