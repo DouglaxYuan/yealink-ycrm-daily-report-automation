@@ -6,7 +6,10 @@
   "description": "Playwright helpers for authorized YCRM daily-report fetching and template submission.",
   "scripts": {
     "fetch": "node scripts/fetch_daily_reports.mjs",
-    "analyze": "node scripts/analyze_daily_report_style.mjs"
+    "analyze": "node scripts/analyze_daily_report_style.mjs",
+    "plan": "node scripts/build_daily_report_send_plan.mjs",
+    "plan:python": "python scripts/build_daily_report_send_plan.py",
+    "live-send": "node scripts/live_send_daily_report.template.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.1"

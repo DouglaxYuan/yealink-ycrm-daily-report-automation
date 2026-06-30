@@ -1,0 +1,14 @@
+{
+  "reportUrl": "https://ycrm.yealink-inc.com/portal/evection/record/detail/00000000000000000000000000000000",
+  "reportId": "00000000000000000000000000000000",
+  "reportNo": "DR-EXAMPLE-0001",
+  "signInId": "CHECKIN-EXAMPLE-0001",
+  "reportDate": "2026-06-30",
+  "customerName": "示例客户",
+  "workType": "客户拜访",
+  "sendGroup": "vcs.cn.trip@yealink.com",
+  "participants": "张三、李四",
+  "target": "确认客户会议室协作场景、现有设备情况和下一步测试安排。",
+  "actual": "1. 完成客户需求沟通；2. 明确需要演示的核心功能；3. 约定下次测试时间和参与人员。",
+  "follow": "整理测试清单并同步销售，等待客户确认测试环境。"
+}
