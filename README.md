@@ -1,10 +1,24 @@
 # Yealink YCRM Daily Report Automation
 
+> 面向已获授权的亿联员工，把 YCRM 历史日报整理成可分析的本地数据，并为日报草稿提供一致的写作参考。
+
+- **项目状态**：可用工具包，维护中
+- **最后验证**：2026-07-18
+- **重要边界**：默认工作流只读取和分析；提交脚本是安全模板，不会在缺少明确接口配置时执行。
+
 ## 中文说明
 
 这是一个面向亿联员工的 YCRM 日报自动化脚本包。它使用 Playwright 复用授权浏览器会话，抓取 YCRM 日报列表和字段内容，分析日报写法结构，并提供一个脱敏后的提交流程模板，方便 Agent 根据授权用户的真实场景生成或校验日报。
 
 公开版本没有包含真实日报、客户名称、手机号、邮件、截图或登录态。`submit_daily_report.template.mjs` 只是安全模板，需要使用者按自己有权限的 YCRM 接口补充提交路径和字段映射。
+
+### 适合谁使用
+
+- 需要快速回顾自己有权查看的历史日报，并总结常用结构、长度和字段的员工。
+- 希望让 AI Agent 先学习个人日报写法，再生成本地草稿供人工确认的销售、售前或交付人员。
+- 需要把“抓取、分析、人工修改、最终提交”拆成可追溯步骤的自动化维护者。
+
+不适合未经授权抓取他人日报、批量导出客户数据或绕过企业登录和权限控制。它也不是无人审核的自动报送机器人。
 
 ### 解决的问题
 
@@ -17,6 +31,17 @@
 - `scripts/fetch_daily_reports.mjs` 负责在 YCRM 日报页面发起授权接口请求并保存 JSON。
 - `scripts/analyze_daily_report_style.mjs` 对本地日报 JSON 做字段和写法分析。
 - `scripts/submit_daily_report.template.mjs` 是脱敏提交模板，只接收本地 payload 和显式配置的接口路径。
+
+### 使用链路
+
+```text
+授权浏览器登录态
+  → 抓取本人有权访问的日报
+  → 本地生成 compact JSON
+  → 分析字段与写作习惯
+  → AI/人工形成草稿
+  → 明确确认后才配置提交模板
+```
 
 ### 运行 URL
 
@@ -49,13 +74,40 @@ $env:YCRM_DAILY_REPORT_SUBMIT_API="/ycrm/your-authorized-submit-api"
 
 ### 快速开始
 
+以下步骤先完成**读取与分析**，不会提交日报：
+
 ```powershell
 npm install
 npx playwright install chromium
 node scripts/fetch_daily_reports.mjs
 node scripts/analyze_daily_report_style.mjs
+```
+
+成功标志：`work/ycrm_daily_reports/` 中生成日报数据与风格统计文件，终端显示读取数量；这些运行数据已被 Git 忽略。
+
+只有在你已经核对 payload、确认拥有提交权限并设置真实授权接口后，才运行模板：
+
+```powershell
+$env:YCRM_DAILY_REPORT_SUBMIT_API="/ycrm/your-authorized-submit-api"
 node scripts/submit_daily_report.template.mjs examples/daily_report_payload.example.json
 ```
+
+模板缺少 `YCRM_DAILY_REPORT_SUBMIT_API` 时会主动失败，不会猜测接口或发送请求。
+
+### 常用操作与结果
+
+| 目标 | 命令 | 成功标志 |
+|---|---|---|
+| 读取授权日报 | `npm run fetch` | 输出 `rowCount`，并生成本地 JSON |
+| 分析写作结构 | `npm run analyze` | 生成 `style_stats.json` 与样例摘要 |
+| 准备提交 | 人工审阅 `examples/daily_report_payload.example.json` | 字段和值均经本人确认 |
+| 执行提交模板 | 显式配置接口后运行模板 | 返回 YCRM 业务响应；不能只看进程退出 |
+
+### 已知限制
+
+- 依赖企业内网或 VPN、有效授权账号和当前 YCRM 页面/API 结构。
+- YCRM 字段或接口变化后需要重新验证脚本，README 中的接口路径不能当作长期兼容承诺。
+- 输出可能包含企业与客户信息，只能保存在受控本地目录，不应上传到公开仓库或公共 AI 服务。
 
 ### 给 Agent 的快速导入提示
 
@@ -68,6 +120,13 @@ node scripts/submit_daily_report.template.mjs examples/daily_report_payload.exam
 ### 开源协议
 
 MIT License。公开版本只覆盖本仓库中的脱敏脚本和文档。
+
+### 文档与关键文件
+
+- [`config example`](.env.example)：仅包含变量模板。
+- [`daily_report_payload.example.json`](examples/daily_report_payload.example.json)：脱敏 payload 示例。
+- [`CHANGELOG.md`](CHANGELOG.md)：版本变化。
+- [`LICENSE`](LICENSE)：MIT 许可。
 
 ## English
 
